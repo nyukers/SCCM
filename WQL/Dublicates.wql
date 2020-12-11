@@ -1,0 +1,26 @@
+Duplicate MAC Addresses.
+
+SELECT 
+dbo.v_RA_System_MACAddresses.MAC_Addresses0,
+Count(dbo.v_R_System.Name0) AS SystemCount 
+FROM dbo.v_R_System RIGHT OUTER JOIN dbo.v_RA_System_MACAddresses 
+ON dbo.v_R_System.ResourceID = dbo.v_RA_System_MACAddresses.ResourceID 
+GROUP BY dbo.v_RA_System_MACAddresses.MAC_Addresses0 ORDER BY SystemCount DESC
+
+Duplicate Computer Names.
+
+select R.ResourceID,
+R.ResourceType,
+R.Name,R.SMSUniqueIdentifier,
+R.ResourceDomainORWorkgroup,R.Client from SMS_R_System as r 
+full join SMS_R_System as s1 on s1.ResourceId = r.ResourceId 
+full join SMS_R_System as s2 on s2.Name = s1.Name 
+where s1.Name = s2.Name and s1.ResourceId != s2.ResourceId
+
+Duplicate HardwareID.
+
+SELECT Name0, Hardware_ID0, Count(Hardware_ID0) AS SystemCount
+FROM dbo.v_R_System
+GROUP BY Hardware_ID0, Name0
+ORDER BY SystemCount DESC
+
