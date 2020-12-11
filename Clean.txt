@@ -1,0 +1,13 @@
+@echo off
+set "path=%SystemRoot%;%SystemRoot%\system32;%SystemRoot%\system32\wbem"
+
+set "productmask=\\0000.109"
+for /f "delims=" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData" 2^>nul ^| findstr "\S-"') do (
+    for /f "delims=" %%j in ('reg query "%%i\products" 2^>nul ^| findstr  /r /c:"%productmask%"') do (
+        for /f "tokens=2*" %%m in ('reg query "%%~j\InstallProperties" /v "LocalPackage" 2^>nul ^| findstr "REG_"') do (
+echo .
+)
+for /f "delims=" %%k in ('reg query "%%j\Patches" 2^>nul ^| findstr "Patches\\"') do (
+for /f "tokens=2*" %%l in ('reg query "%%i\Patches\%%~nk" /v "LocalPackage" 2^>nul ^| findstr "REG_"') do (
+del /f /q "%%~m"
+))))
