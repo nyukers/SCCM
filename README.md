@@ -1,2 +1,2 @@
 # SCCM
-SCCM batch files.
+SCCM query and batch files.
